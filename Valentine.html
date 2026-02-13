@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>💖 ONLY for my KITTY 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff0055, #ff9a9e, #fbc2eb);
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+.card {
+  background: white;
+  padding: 30px 20px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+  width: 92%;
+  max-width: 420px;
+}
+
+h1 {
+  color: #ff0055;
+  font-size: 26px;
+}
+
+p {
+  font-size: 18px;
+  color: #444;
+}
+
+.buttons {
+  position: relative;
+  height: 160px;
+  margin-top: 25px;
+}
+
+button {
+  padding: 16px 30px;
+  font-size: 18px;
+  border-radius: 35px;
+  border: none;
+  cursor: pointer;
+}
+
+#yesBtn {
+  background: #ff0055;
+  color: white;
+  box-shadow: 0 10px 25px rgba(255,0,85,0.4);
+}
+
+#noBtn {
+  background: #ddd;
+  color: #333;
+  position: absolute;
+  left: 55%;
+  top: 30px;
+}
+
+.result {
+  display: none;
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff0055;
+}
+
+.heart {
+  position: absolute;
+  pointer-events: none;
+  animation: blast 3s ease-out forwards;
+  font-weight: bold;
+}
+
+@keyframes blast {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: translateY(-240px) scale(1.8); opacity: 0; }
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ff0055;
+  color: white;
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+  z-index: 999;
+  font-size: 18px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="hamsaro.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <h1>💖 Hey Kuchi Pooo 😍💖</h1>
+  <p>
+    🚨 Serious question 🚨<br><br>
+    Will you be <b>Sri’s Valentine</b>? 💘🥰
+  </p>
+
+  <div class="buttons">
+    <button id="yesBtn">YES 😍💍</button>
+    <button id="noBtn">NO 🙈</button>
+  </div>
+
+  <div class="result" id="result">
+    💥💖 GO KISS YOUR CHINNODU RIGHT NOW!! 😘💋💖💥
+  </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const result = document.getElementById("result");
+const music = document.getElementById("music");
+
+const crazyTexts = [
+  "😳 Are you in your right mind??",
+  "🙄 Excuse me??? Try again.",
+  "😤 This is NO time for joking around!",
+  "🤨 Phone slipped or finger slipped?",
+  "😏 Nice try… but Aadavari matalaku ardhaale veru",
+  "😡 Don’t break my heart like this!",
+  "🥲 Think again… CAREFULLY.",
+  "🤯 Error 404: NO not found",
+  "😌 Universe says YES only."
+];
+
+// 🔒 Lock orientation (after user interaction)
+function lockPortrait() {
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock("portrait").catch(() => {});
+  }
+}
+
+// 📳 Vibration helper
+function vibrate(pattern) {
+  if (navigator.vibrate) {
+    navigator.vibrate(pattern);
+  }
+}
+
+function showPopup(text) {
+  const pop = document.createElement("div");
+  pop.className = "popup";
+  pop.innerText = text;
+  document.body.appendChild(pop);
+  setTimeout(() => pop.remove(), 1500);
+}
+
+// NO button chaos (mobile + vibration)
+function noAction() {
+  lockPortrait();
+  vibrate([100, 50, 100, 50, 200]);
+  showPopup(crazyTexts[Math.floor(Math.random() * crazyTexts.length)]);
+  noBtn.style.left = Math.random() * 240 + "px";
+  noBtn.style.top = Math.random() * 100 + "px";
+}
+
+noBtn.addEventListener("touchstart", noAction);
+noBtn.addEventListener("click", noAction);
+
+// YES explosion + long vibration
+yesBtn.addEventListener("click", (e) => {
+  lockPortrait();
+  vibrate([200, 100, 200, 100, 400]);
+  result.style.display = "block";
+  music.play();
+
+  for (let i = 0; i < 40; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖 KC 💖";
+    heart.style.left =
+      (e.clientX || window.innerWidth / 2) - 60 + Math.random() * 120 + "px";
+    heart.style.top =
+      (e.clientY || window.innerHeight / 2) + "px";
+    heart.style.fontSize = (14 + Math.random() * 16) + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 3000);
+  }
+});
+</script>
+
+</body>
+</html>
